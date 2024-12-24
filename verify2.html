@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verification</title>
+    <style>
+        /* Style for the verification messages */
+        .verified {
+            color: green;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .not-verified {
+            color: red;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function verifyCertificate() {
+            // Get the 'code' from the URL query parameter
+            const params = new URLSearchParams(window.location.search);
+            const code = params.get("code");
+
+            // Check if the code is provided
+            if (!code) {
+                document.getElementById("result").innerHTML = "<p class='not-verified'>Error: No certificate code provided!</p>";
+                return;
+            }
+
+            // Predefined certificate database (You can replace this with a real database)
+            const database = {
+                "ABC123": { name: "John Doe", course: "Korean 101", date: "2024-12-20" },
+                "XYZ789": { name: "Jane Smith", course: "Korean 102", date: "2024-12-21" }
+            };
+
+            // Get the certificate details for the provided code
+            const result = database[code];
+
+            // Check if the certificate code is valid
+            if (result) {
+                // Show the verified certificate details in green
+                document.getElementById("result").innerHTML = `
+                    <p class='verified'>Certificate Verified!</p>
+                    <p>Name: ${result.name}</p>
+                    <p>Course: ${result.course}</p>
+                    <p>Issued Date: ${result.date}</p>`;
+            } else {
+                // Show the "not found" message in red
+                document.getElementById("result").innerHTML = "<p class='not-verified'>Certificate Not Verified</p>";
+            }
+        }
+    </script>
+</head>
+<body onload="verifyCertificate()">
+    <div id="result"></div>
+</body>
+</html>
